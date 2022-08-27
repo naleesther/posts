@@ -16,10 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getPost()
+        fetchPost()
     }
 
-    fun getPost(){
+    fun fetchPost(){
         var retrofit = APiClient.buildApiClient(ApiInterface::class.java)
         var request = retrofit.getPosts()
 
@@ -28,12 +28,10 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful){
                     var post = response.body()
                     Toast.makeText(baseContext,"fetched ${post!!.size} posts",Toast.LENGTH_LONG).show()
-                    var adapter = PostRvAdapter(baseContext,post)
+                    var adapter = PostRvAdapter(post)
                     Log.d("Tag",post.toString())
                     binding.rvPosts.adapter  = adapter
                     binding.rvPosts.layoutManager=LinearLayoutManager(baseContext)
-
-
                 }
             }
 
